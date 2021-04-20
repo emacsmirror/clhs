@@ -1,20 +1,26 @@
 ;;; clhs.el -- access the Common Lisp HyperSpec (CLHS)
 
-;;; this works with both
+;;; This works with both
 ;;; * the "long file name" version released by Harlequin and available
 ;;;   at the MIT web site as
-;;;   <http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/FrontMatter/> and
-;;; * the "8.3 file name" version released later by Xanalys and available at
-;;;   <http://www.xanalys.com/software_tools/reference/HyperSpec/>
-;;;   and downloadable as
-;;;   <http://www.xanalys.com/software_tools/reference/HyperSpec/HyperSpec-6-0.tar.gz>
+;;;   http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/FrontMatter/
+;;; * the "8.3 file name" version released later by Xanalys/LispWorks and
+;;;   available at http://www.lispworks.com/documentation/common-lisp.html
 ;;; This is accomplished by not hard-wiring the symbol->file table
-;;; but reading the Data/<map> file instead
+;;; but reading the Data/<map> file instead.
 
-;;; Copyright (C) 2002-2008, 2017, 2019 Sam Steingold <sds@gnu.org>
+;;; Copyright (C) 2002-2008, 2017, 2019, 2021 Sam Steingold <sds@gnu.org>
 ;;; Keywords: lisp, common lisp, emacs, ANSI CL, hyperspec
 ;;; released under the GNU GPL <http://www.gnu.org/copyleft/gpl.html>
 ;;; as a part of GNU CLISP <http://clisp.cons.org>, <http://www.clisp.org>
+
+;;; Usage:
+
+;; (autoload 'common-lisp-hyperspec "clhs" "Get doc on ANSI CL" t)
+;; (define-key help-map "\C-l" 'common-lisp-hyperspec)
+;; (custom-set-variables
+;;  '(tags-apropos-additional-actions
+;;    '(("Common Lisp" common-lisp-hyperspec common-lisp-hyperspec-symbols))))
 
 ;;; Commentary:
 
