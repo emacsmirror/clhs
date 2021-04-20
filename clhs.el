@@ -57,6 +57,9 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
 (defvar clhs-symbols nil)
 
 (defun clhs-table-buffer (&optional root)
+  "Create a buffer containing the CLHS symbol table.
+Optional argument ROOT specifies the CLHS root location
+ and defaults to `common-lisp-hyperspec-root'."
   (unless root (setq root common-lisp-hyperspec-root))
   (if (string-match "^file:/" root)
       (with-current-buffer (get-buffer-create " *clhs-tmp-buf*")
@@ -66,7 +69,7 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
            (if (file-exists-p f) f
              (setq f (concat d "Symbol-Table.text"))
              (if (file-exists-p f) f
-               (error "no symbol table at %s" root))))
+               (error "No symbol table at %s" root))))
          nil nil nil t)
         (goto-char 0)
         (current-buffer))
@@ -81,13 +84,13 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
         (goto-char 0)
         (unless (looking-at "^HTTP/.*200 *OK$")
           (kill-buffer (current-buffer))
-          (error "no symbol table at %s" root)))
+          (error "No symbol table at %s" root)))
       ;; skip to the first symbol
       (search-forward "\n\n")
       (current-buffer))))
 
 (defun clhs-read-symbols ()
-  "read `clhs-symbols' from the current position in the current buffer"
+  "Read variable `clhs-symbols' from the current position in the current buffer."
   (while (not (eobp))
     (puthash (buffer-substring-no-properties ; symbol
               (line-beginning-position) (line-end-position))
@@ -98,7 +101,7 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
     (forward-line 1)))
 
 (defun clhs-symbols ()
-  "Get `clhs-symbols' from `common-lisp-hyperspec-root'."
+  "Get variable `clhs-symbols' from `common-lisp-hyperspec-root'."
   (if (and clhs-symbols (not (= 0 (hash-table-count clhs-symbols))))
       clhs-symbols
     (with-current-buffer (clhs-table-buffer)
@@ -130,3 +133,5 @@ With prefix arg KILL, save the URL in the `kill-ring' instead."
       (browse-url url))))
 
 (provide 'clhs)
+
+;;; clhs.el ends here
