@@ -1,4 +1,6 @@
-;;; clhs.el -- access the Common Lisp HyperSpec (CLHS)
+;;; clhs.el --- Access the Common Lisp HyperSpec (CLHS)
+;; Version: 2021-04-20
+;; Homepage: https://gitlab.com/sam-s/clhs
 
 ;;; This works with both
 ;;; * the "long file name" version released by Harlequin and available
@@ -16,11 +18,10 @@
 
 ;;; Usage:
 
-;; (autoload 'common-lisp-hyperspec "clhs" "Get doc on ANSI CL" t)
-;; (define-key help-map "\C-l" 'common-lisp-hyperspec)
+;; (autoload 'clhs-doc "clhs" "Get doc on ANSI CL" t)
+;; (define-key help-map "\C-l" 'clhs-doc)
 ;; (custom-set-variables
-;;  '(tags-apropos-additional-actions
-;;    '(("Common Lisp" common-lisp-hyperspec common-lisp-hyperspec-symbols))))
+;;  '(tags-apropos-additional-actions '(("Common Lisp" clhs-doc clhs-symbols))))
 
 ;;; Commentary:
 
@@ -38,7 +39,7 @@
 (require 'thingatpt)
 (require 'url)
 
-(defcustom common-lisp-hyperspec-root "http://clhs.lisp.se/"
+(defcustom clhs-root "http://clhs.lisp.se/"
   ;; "http://www.lispworks.com/documentation/HyperSpec/"
   ;; "http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/html/hyperspec/HyperSpec/"
   ;; "http://www.ai.mit.edu/projects/iiip/doc/CommonLISP/HyperSpec/"
@@ -59,8 +60,8 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
 (defun clhs-table-buffer (&optional root)
   "Create a buffer containing the CLHS symbol table.
 Optional argument ROOT specifies the CLHS root location
- and defaults to `common-lisp-hyperspec-root'."
-  (unless root (setq root common-lisp-hyperspec-root))
+ and defaults to `clhs-root'."
+  (unless root (setq root clhs-root))
   (if (string-match "^file:/" root)
       (with-current-buffer (get-buffer-create " *clhs-tmp-buf*")
         (insert-file-contents-literally
@@ -101,7 +102,7 @@ Optional argument ROOT specifies the CLHS root location
     (forward-line 1)))
 
 (defun clhs-symbols ()
-  "Get variable `clhs-symbols' from `common-lisp-hyperspec-root'."
+  "Get variable `clhs-symbols' from `clhs-root'."
   (if (and clhs-symbols (not (= 0 (hash-table-count clhs-symbols))))
       clhs-symbols
     (with-current-buffer (clhs-table-buffer)
@@ -112,9 +113,9 @@ Optional argument ROOT specifies the CLHS root location
       clhs-symbols)))
 
 ;;;###autoload
-(defun common-lisp-hyperspec (symbol-name &optional kill)
+(defun clhs-doc (symbol-name &optional kill)
   "Browse the Common Lisp HyperSpec documentation for SYMBOL-NAME.
-Finds the HyperSpec at `common-lisp-hyperspec-root'.
+Finds the HyperSpec at `clhs-root'.
 With prefix arg KILL, save the URL in the `kill-ring' instead."
   (interactive (list (let ((sym (thing-at-point 'symbol t))
                            (completion-ignore-case t))
@@ -122,12 +123,9 @@ With prefix arg KILL, save the URL in the `kill-ring' instead."
                         "Look-up symbol in the Common Lisp HyperSpec: "
                         (clhs-symbols) nil t sym 'clhs-history))
                      current-prefix-arg))
-  (unless (= ?/ (aref common-lisp-hyperspec-root
-                      (1- (length common-lisp-hyperspec-root))))
-    (setq common-lisp-hyperspec-root
-          (concat common-lisp-hyperspec-root "/")))
-  (let ((url (concat common-lisp-hyperspec-root
-                     (gethash (upcase symbol-name) (clhs-symbols)))))
+  (unless (= ?/ (aref clhs-root (1- (length clhs-root))))
+    (setq clhs-root (concat clhs-root "/")))
+  (let ((url (concat clhs-root (gethash (upcase symbol-name) (clhs-symbols)))))
     (if kill
         (kill-new url)
       (browse-url url))))
