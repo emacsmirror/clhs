@@ -108,34 +108,16 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
       (kill-buffer (current-buffer))
       clhs-symbols)))
 
-(defun hash-table-complete (string table how)
-  "This makes it possible to use hash-tables with `completing-read'.
-Actually, `completing-read' in Emacs 22 accepts hash-tables natively."
-  (let ((res nil) (st (upcase string)) (len (length string)))
-    (maphash (lambda (key val)
-               (when (and (<= len (length key))
-                          (string= st (substring key 0 len)))
-                 (push key res)))
-             table)
-    (if how
-        res                       ; `all-completions'
-        (if (cdr res)
-            (try-completion st (mapcar #'list res))
-            (if (string= st (car res))
-                t
-                (car res))))))
-
 ;;;###autoload
 (defun common-lisp-hyperspec (symbol-name &optional kill)
   "Browse the Common Lisp HyperSpec documentation for SYMBOL-NAME.
 Finds the HyperSpec at `common-lisp-hyperspec-root'.
-With prefix arg, save the URL in the `kill-ring' instead."
+With prefix arg KILL, save the URL in the `kill-ring' instead."
   (interactive (list (let ((sym (thing-at-point 'symbol t))
                            (completion-ignore-case t))
                        (completing-read
                         "Look-up symbol in the Common Lisp HyperSpec: "
-                        #'hash-table-complete (clhs-symbols)
-                        t sym 'clhs-history))
+                        (clhs-symbols) nil t sym 'clhs-history))
                      current-prefix-arg))
   (unless (= ?/ (aref common-lisp-hyperspec-root
                       (1- (length common-lisp-hyperspec-root))))
