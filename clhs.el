@@ -39,6 +39,8 @@
 (require 'thingatpt)
 (require 'url)
 
+(defvar clhs-symbols nil)
+
 (defcustom clhs-root "http://clhs.lisp.se/"
   ;; "http://www.lispworks.com/documentation/HyperSpec/"
   ;; "http://www.cs.cmu.edu/afs/cs/project/ai-repository/ai/html/hyperspec/HyperSpec/"
@@ -54,8 +56,6 @@ something like \"file:/usr/local/doc/HyperSpec/\"."
 
 (defvar clhs-history nil
   "History of symbols looked up in the Common Lisp HyperSpec so far.")
-
-(defvar clhs-symbols nil)
 
 (defun clhs-table-buffer (&optional root)
   "Create a buffer containing the CLHS symbol table.
