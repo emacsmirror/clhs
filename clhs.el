@@ -1,6 +1,7 @@
-;;; clhs.el --- Access the Common Lisp HyperSpec (CLHS)
+;;; clhs.el --- Access the Common Lisp HyperSpec (CLHS)   -*- lexical-binding: t -*-
 ;; Version: 2021-04-20
 ;; Homepage: https://gitlab.com/sam-s/clhs
+;; Maintainer: Sam Steingold <sds@gnu.org>
 
 ;;; This works with both
 ;;; * the "long file name" version released by Harlequin and available
@@ -13,8 +14,8 @@
 
 ;;; Copyright (C) 2002-2008, 2017, 2019, 2021 Sam Steingold <sds@gnu.org>
 ;;; Keywords: lisp, common lisp, emacs, ANSI CL, hyperspec
-;;; released under the GNU GPL <http://www.gnu.org/copyleft/gpl.html>
-;;; as a part of GNU CLISP <http://clisp.cons.org>, <http://www.clisp.org>
+;;; released under the GNU GPL <https://www.gnu.org/copyleft/gpl.html>
+;;; as a part of GNU CLISP <https://www.clisp.org>
 
 ;;; Usage:
 
