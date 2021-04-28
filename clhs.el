@@ -1,5 +1,5 @@
 ;;; clhs.el --- Access the Common Lisp HyperSpec (CLHS)   -*- lexical-binding: t -*-
-;; Version: 2021-04-20
+;; Version: 2
 ;; Homepage: https://gitlab.com/sam-s/clhs
 ;; Maintainer: Sam Steingold <sds@gnu.org>
 
